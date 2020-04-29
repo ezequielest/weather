@@ -1,10 +1,14 @@
 body {
-    background: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)), url('../img/mdq.jpg');
+    background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)), url('../img/mdq.jpg');
     background-size: cover;
     font-family: 'Prompt', sans-serif;
     background-size: cover;
     font-weight: 300;
     color: #fff;
+}
+
+.weather-container {
+    margin-top: 80px;
 }
 
 .weather-container .element {
@@ -44,7 +48,7 @@ body {
 }
 
 .weather-container .date {
-    font-size: 15px;
+    font-size: 18px;
 }
 
 .svg{
@@ -62,7 +66,7 @@ body {
 }
 
 .weather-container .degreed-container .temp {
-    font-size: 90px;
+    font-size: 120px;
     font-weight: 500;
 }
 
@@ -70,15 +74,17 @@ body {
 .forecast-container {
     width: 100%;
 }
+
 .cards-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     color: #fff;
 }
 
 .cards-container .card{
     text-align: center;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.6);
 }
 
 .cards-container .card .element{
@@ -87,6 +93,11 @@ body {
     margin: 10px auto;
     position: relative;
     top: 25px;
+}
+
+.forecast-container h2 {
+    font-size: 22px;
+    margin-bottom: 30px;
 }
 
 .cards-container .card h3{
@@ -100,8 +111,25 @@ body {
 
 
 @media (max-width: 462px) {
+    .container { 
+        height: initial;
+    }
+
+    .weather-container {
+        margin-top: 0;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+
+    .weather-container .element { 
+        width: 100px;
+        margin: 20px;
+    }
+
+
     .weather-container .city-name {
-        font-size: 18px;
+        font-size: 32px;
     }
 
     .weather-container .date {
@@ -109,13 +137,20 @@ body {
     }
 
     .weather-container .degreed-container .temp {
-        font-size: 18px;
+        font-size: 62px;
     }
 
-    .element {
-        height: 40px;
-        width: 40px;
-        margin: 15px;
+    .cards-container {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .cards-container .card {
+        margin-bottom: 10px;
+    }
+
+    .forecast-container h2 {
+        text-align: center;
     }
 
 
