@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ezequielest.dev</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@100;300;500;900&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="./weathericons.css">
+    <style>
+        body {
+            background: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)), url('./img/mdq.jpg');
+            font-family: 'Prompt', sans-serif;
+            background-size: cover;
+            font-weight: 300;
+            color: #fff;
+        }
+
+        .element {
+            height: 50px;
+            width: 50px;
+            margin: 10px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .elements {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .white {fill:#FFFFFF}
+        .gray {fill:#E0E0E0}
+        .yellow {fill:#FFEB3B}
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .weather-container {
+            width: 100%;
+        }
+        .weather-container .city-name {
+            font-size: 60px;
+            font-weight: 900;
+        }
+
+        .weather-container .date {
+            font-size: 30px;
+        }
+
+        .svg{
+            display: block;
+            position: relative;
+            top: 85px;
+            text-indent: -9999px;
+            width: 195px;
+            height: 136px;
+            background-size: 200px 138px;
+            fill:#FFFFFF;
+        }
+
+        .svg.rainy {
+            background: url(./svg/rainy.svg);
+        }
+
+        .svg.cloudy {
+            background: url(./svg/cloudy.svg);
+        }
+
+        .svg.clouds-sun{
+            background: url(./svg/cloudy-sun.svg);
+        }
+
+        .weather-container .degreed-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .weather-container .degreed-container .temp {
+            font-size: 180px;
+            font-weight: 500;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div v-if="currentWeather" class="container">
+            <div class="weather-container">
+                <div class="col-md">
+                    <span class="city-name">{{ currentWeather.city_name }} </span>
+                </div>
+                <div class="col-md">
+                    <span class="date"> {{ currentTime }}</span>
+                </div>
+                <div class="col-md degreed-container">
+                    <div class="temp">
+                        {{ currentWeather.temp }}°
+                    </div>
+                    <div>
+                        <!--current code weather {{ codeWeather }}-->
+                        <span class="svg" :class="getClassIcon()"></span>
+  
+                    </div>
+                </div>
+                <div class="col-md">
+                    viento {{ currentWeather.wind_spd }} km/h
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="./moment.js"></script>
+    <script>
+        var app = new Vue({
+        el: '#app',
+        data() {
+            return {
+             message: 'Hello Vue!',
+             key: 'f3acb947fe9a4601aaca23a79e0e7bb4',
+             currentWeather: null,
+             codeWeather: null,
+             currentTime: null,
+             windSpeed: null
+            }
+        },
+        methods: {
+            getClassIcon: function() {
+
+                iconsDay = [
+                    {200: 'storm-rain'},
+                    {201: 'storm-rain'},
+                    {202: 'storm-rain'},
+                    {230: 'rain'},
+                    {232: 'rain'},
+                    {233: 'rain'},
+                    {500: 'rainy'},
+                    {611: 'wind'},
+                    {612: 'wind'},
+                    {800: 'sun'},
+                    {801: 'clouds-sun'},
+                    {802: 'clouds-sun'},
+                    {803: 'clouds-sun'},
+                    {804: 'cloudy'},
+                    {900: 'rainy'},
+                 ]
+
+                 iconsNight = [
+                    {200: 'storm-rain'},
+                    {201: 'storm-rain'},
+                    {202: 'storm-rain'},
+                    {230: 'rain'},
+                    {232: 'rain'},
+                    {233: 'rain'},
+                    {500: 'rainy'},
+                    {611: 'wind'},
+                    {612: 'wind'},
+                    {800: 'sun'},
+                    {801: 'clouds-sun'},
+                    {802: 'clouds-sun'},
+                    {803: 'clouds-sun'},
+                    {804: 'clouds'},
+                    {900: 'rainy'},
+                 ]
+
+                 var iconSelected = iconsDay.filter((icon) => {
+                    return icon[this.codeWeather]
+                 })[0];
+
+                 return iconSelected[this.codeWeather]
+                
+            },
+            updateTime: function() {
+                axios
+                    .get(`https://api.weatherbit.io/v2.0/current?city=Mar%20del%20Plata&country=Argentina&state=Buenos%20Aires&key=${this.key}`)
+                    .then(response => {
+                        this.currentWeather = response.data.data[0];
+                        this.codeWeather = response.data.data[0].weather.code;
+                        this.windSpeed = this.currentWeather.wind_spd * 3.6;
+                        this.currentTime =  moment(this.currentWeather.datetime.slice(0,10)).format('DD/MM/YYYY')
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        this.errored = true
+                    })
+                    .finally(() => this.loading = false);
+                    }
+        },
+        mounted () {
+            this.updateTime();
+                    
+
+            setInterval(() => {
+                this.updateTime();
+            }, 300000);
+        }
+
+
+    })
+    </script>
+</body>
+</html>
