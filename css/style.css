@@ -7,10 +7,6 @@ body {
     color: #fff;
 }
 
-.weather-container {
-    margin-top: 80px;
-}
-
 .weather-container .element {
     width: 220px;
     margin: 20px;
@@ -95,7 +91,11 @@ body {
     top: 25px;
 }
 
-.forecast-container h2 {
+.forecast-container {
+    margin-top: 20px;
+}
+
+.forecast-container h2{
     font-size: 22px;
     margin-bottom: 30px;
 }
