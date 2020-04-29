@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)), url('../img/mdq.jpg');
+    background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.8)), url('../img/mdq.jpg');
     background-size: cover;
     font-family: 'Prompt', sans-serif;
     background-size: cover;
@@ -108,11 +108,9 @@ body {
     font-size: 12px;
 }
 
-
-
 @media (max-width: 462px) {
     .container { 
-        height: initial;
+        height: auto;
     }
 
     .weather-container {
@@ -121,12 +119,10 @@ body {
         padding-bottom: 40px;
     }
 
-
     .weather-container .element { 
         width: 100px;
         margin: 20px;
     }
-
 
     .weather-container .city-name {
         font-size: 32px;
@@ -152,6 +148,4 @@ body {
     .forecast-container h2 {
         text-align: center;
     }
-
-
 }
