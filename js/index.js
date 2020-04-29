@@ -3,51 +3,53 @@ var app = new Vue({
     data() {
         return {
         loading: true,
-         iconsDay: [
-                {200: 'cloudy-rain-lightning'},
-                {201: 'cloudy-rain-lightning'},
-                {202: 'cloudy-rain-lightning'},
-                {230: 'cloudy-lightning'},
-                {232: 'cloudy-lightning'},
-                {233: 'cloudy-lightning'},
-                {300: 'snow'},
-                {301: 'snow'},
-                {302: 'snow'},
-                {500: 'rainy'},
-                {501: 'rainy'},
-                {501: 'rainy'},
-                {511: 'rainy'},
-                {520: 'rainy'},
-                {521: 'rainy'},
-                {522: 'rainy'},
-                {600: 'snow'},
-                {601: 'snow'},
-                {602: 'snow'},
-                {610: 'snow'},
-                {611: 'wind'},
-                {612: 'wind'},
-                {621: 'snow'},
-                {622: 'snow'},
-                {623: 'snow'},
-                {711: 'niebla'},
-                {721: 'niebla'},
-                {731: 'niebla'},
-                {741: 'niebla'},
-                {751: 'niebla'},
-                {800: 'clean'},
-                {801: 'clouds-sun'},
-                {802: 'clouds-sun'},
-                {803: 'clouds-sun'},
-                {804: 'cloudy'},
-                {900: 'rainy'},
-             ],
+        iconsDay: [
+            {200: 'cloudy-rain-lightning'},
+            {201: 'cloudy-rain-lightning'},
+            {202: 'cloudy-rain-lightning'},
+            {230: 'cloudy-lightning'},
+            {232: 'cloudy-lightning'},
+            {233: 'cloudy-lightning'},
+            {300: 'snow'},
+            {301: 'snow'},
+            {302: 'snow'},
+            {500: 'rainy'},
+            {501: 'rainy'},
+            {501: 'rainy'},
+            {511: 'rainy'},
+            {520: 'rainy'},
+            {521: 'rainy'},
+            {522: 'rainy'},
+            {600: 'snow'},
+            {601: 'snow'},
+            {602: 'snow'},
+            {610: 'snow'},
+            {611: 'wind'},
+            {612: 'wind'},
+            {621: 'snow'},
+            {622: 'snow'},
+            {623: 'snow'},
+            {711: 'niebla'},
+            {721: 'niebla'},
+            {731: 'niebla'},
+            {741: 'niebla'},
+            {751: 'niebla'},
+            {800: 'clean'},
+            {801: 'clouds-sun'},
+            {802: 'clouds-sun'},
+            {803: 'clouds-sun'},
+            {804: 'cloudy'},
+            {900: 'rainy'},
+         ],
          key: 'f3acb947fe9a4601aaca23a79e0e7bb4',
          currentWeather: null,
          codeWeather: null,
          currentTime: null,
          windSpeed: null,
          iconSelected: null,
-         isNight: false
+         isNight: false,
+         forecast: null,
+         iconsForecast: []
         }
     },
     methods: { 
@@ -55,26 +57,58 @@ var app = new Vue({
             let hr = (new Date()).getHours();
             return (hr > 20 || hr < 5) ? true : false;
         },
-        isCloudy() {
-            return this.iconSelected[this.codeWeather] === 'cloudy' ? true : false;        
+        isCloudy(serchInto,forecastday) {
+            let code = forecastday ? forecastday.weather.code : this.codeWeather;
+            return serchInto[code] === 'cloudy' ? true : false;    
         },   
-        isRainy() {
-            return this.iconSelected[this.codeWeather] === 'rainy' ? true : false;        
+        isRainy(serchInto,forecastday) {
+            let code = forecastday ? forecastday.weather.code : this.codeWeather;
+            return serchInto[code] === 'rainy' ? true : false;        
+            
         },    
-        isCloudsSun() {
-            return this.iconSelected[this.codeWeather] === 'clouds-sun' ? true : false;        
+        isCloudsSun(serchInto,forecastday) {
+            let code = forecastday ? forecastday.weather.code : this.codeWeather;
+            return serchInto[code] === 'clouds-sun' ? true : false;        
         }, 
-        isCloudLightning() {
-            return this.iconSelected[this.codeWeather] === 'cloudy-lightning' ? true : false;        
+        isCloudLightning(serchInto,forecastday) {
+            let code = forecastday ? forecastday.weather.code : this.codeWeather;
+            return serchInto[code] === 'cloudy-lightning' ? true : false;        
         }, 
-        isCloudRainLightning(){
-            return this.iconSelected[this.codeWeather] === 'cloudy-rain-lightning' ? true : false;  
+        isCloudRainLightning(serchInto,forecastday){
+            let code = forecastday ? forecastday.weather.code : this.codeWeather;
+            return serchInto[code] === 'cloudy-rain-lightning' ? true : false;  
         },
-        isClean() {
-            return this.iconSelected[this.codeWeather] === 'clean' ? true : false;
+        isClean(serchInto,forecastday) {
+            let code = forecastday ? forecastday.weather.code : this.codeWeather;
+            return serchInto[code] === 'clean' ? true : false;
         },
-        isSnowy(){
-            return this.iconSelected[this.codeWeather] === 'snow' ? true : false;  
+        isSnowy(serchInto,forecastday){
+            let code = forecastday ? forecastday.weather.code : this.codeWeather;
+            return serchInto[code] === 'snow' ? true : false;  
+        },
+        getForecast: function() {
+            axios
+                .get(`https://api.weatherbit.io/v2.0/forecast/daily?postal_code=7600&days=3&key=${this.key}`)
+                .then(response => {
+                    this.forecast = response.data.data;
+
+                    this.iconsForecast = [];
+                    
+                    this.forecast.forEach((day)=> {
+                        this.iconsForecast.push(this.iconsDay.filter((icon) => {
+                            return icon[day.weather.code]
+                        })[0]);
+                    })
+
+                    console.log('forecast ', this.forecast)
+    
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.errored = true
+                })
+                .finally(() => this.loading = false);
+                
         },
         updateTime: function() {
             axios
@@ -87,6 +121,7 @@ var app = new Vue({
                     this.iconSelected = this.iconsDay.filter((icon) => {
                         return icon[this.codeWeather]
                     })[0];
+
                     this.loading = false;
                 })
                 .catch(error => {
@@ -97,20 +132,29 @@ var app = new Vue({
                 }
     },
     mounted () {
+        this.updateTime();
+        this.getForecast();
         this.isNight = this.isNightHour();
 
         setInterval(() => {
             let currentTime = new Date();
-            this.currentTime =  moment(currentTime).format('DD/MM/YYYY HH:mm:ss')
+            this.currentTime =  moment(currentTime).format('DD/MM/YYYY')
         }, 1000);
-
-        this.updateTime();
                 
-
         setInterval(() => {
             this.updateTime();
             this.isNight = this.isNightHour();
         }, 300000);
+    },
+    filters: {
+        getDateName: function (value) {
+            let days = ['Domingo','Lunes', 'Martes','Miércoles','Jueves','Viernes','Sábado'];
+            if (!value) return '';
+            value = moment(value).format('e');
+            console.log(value)
+            value = days[parseInt(value)+1];
+            return value
+        }
     }
 
 

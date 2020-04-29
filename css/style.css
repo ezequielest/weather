@@ -7,10 +7,9 @@ body {
     color: #fff;
 }
 
-.element {
-    height: 50px;
-    width: 50px;
-    margin: 10px;
+.weather-container .element {
+    width: 220px;
+    margin: 20px;
 }
 
 .container {
@@ -21,7 +20,7 @@ body {
     height: 100vh;
 }
 
-.elements {
+.weather-container .elements {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -30,12 +29,6 @@ body {
 .white {fill:#FFFFFF}
 .gray {fill:#E0E0E0}
 .yellow {fill:#FFEB3B}
-
-.element {
-    height: 200px;
-    width: 200px;
-    margin-top: 80px;
-}
 
 .weather-container {
     width: 100%;
@@ -46,21 +39,21 @@ body {
 }
 
 .weather-container .city-name {
-    font-size: 60px;
+    font-size: 50px;
     font-weight: 900;
 }
 
 .weather-container .date {
-    font-size: 30px;
+    font-size: 15px;
 }
 
 .svg{
     display: block;
     position: relative;
-    top: 85px;
+    top: 45px;
     text-indent: -9999px;
-    width: 90px;
-    height: 90px;
+    width: 45px;
+    height: 45px;
 }
 
 .weather-container .degreed-container {
@@ -69,26 +62,59 @@ body {
 }
 
 .weather-container .degreed-container .temp {
-    font-size: 180px;
+    font-size: 90px;
     font-weight: 500;
 }
 
+/* forecast */
+.forecast-container {
+    width: 100%;
+}
+.cards-container {
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+}
+
+.cards-container .card{
+    text-align: center;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.cards-container .card .element{
+    height: 50px;
+    width: 50px;
+    margin: 10px auto;
+    position: relative;
+    top: 25px;
+}
+
+.cards-container .card h3{
+    font-size: 18px;
+}
+
+.cards-container .card h5{
+    font-size: 12px;
+}
+
+
+
 @media (max-width: 462px) {
     .weather-container .city-name {
-        font-size: 32px;
-    }
-
-    .weather-container .date {
         font-size: 18px;
     }
 
+    .weather-container .date {
+        font-size: 10px;
+    }
+
     .weather-container .degreed-container .temp {
-        font-size: 62px;
+        font-size: 18px;
     }
 
     .element {
-        height: 90px;
-        width: 90px;
+        height: 40px;
+        width: 40px;
         margin: 15px;
     }
 
