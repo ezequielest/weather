@@ -56,7 +56,7 @@ var app = new Vue({
     methods: { 
         isNightHour(){
             let hr = (new Date()).getHours();
-            return (hr > 20 || hr < 5) ? true : false;
+            return (hr > 19.30 || hr < 5) ? true : false;
         },
         isCloudy(serchInto,forecastday) {
             let code = forecastday ? forecastday.weather.code : this.codeWeather;
@@ -88,7 +88,7 @@ var app = new Vue({
             return serchInto[code] === 'snow' ? true : false;  
         },
         getForecast: function() {
-            let daysForecast = 4;
+            let daysForecast = 7;
 
             axios
                 .get(`https://api.weatherbit.io/v2.0/forecast/daily?postal_code=7600&days=${daysForecast}&key=${this.key}`)
