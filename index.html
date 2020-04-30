@@ -6,19 +6,20 @@
     <title>ezequielest.dev</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@100;300;500;900&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="./weathericons.css">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <div id="app">
         <div v-if="loading" class="container">loading data...</div>
         <div v-else class="container">
-            <div class="weather-container">
+            <div class="weather-container" v-if="currentWeather && currentForecast">
                 <div class="col-md">
-                    <span class="city-name" v-if="currentWeather">{{ currentWeather.city_name }} </span>
+                    <span class="city-name">{{ currentWeather.city_name }} </span>
                 </div>
                 <div class="col-md">
                     <span class="date">HOY {{ currentTime }}</span>
+                    <span class="date">Mín {{ currentForecast.min_temp }}°</span>
+                    <span class="date">Máx {{ currentForecast.max_temp }}°</span>
                 </div>
                 <div class="col-md degreed-container">
                     <div>
@@ -349,11 +350,11 @@
                     </div>
                 </div>
                 <div class="col-md">
-                    <p>Viento {{ windSpeed }} km/h</p>
-                    <p>Humedad {{ currentWeather.rh }} %</p>
+                    <span>Viento {{ windSpeed }} km/h</span> | 
+                    <span>Humedad {{ currentWeather.rh }} %</span>
                 </div>
 
-                <div class="forecast-container">
+                <div class="forecast-container" v-if="forecast.length > 0">
                   <h2>Pronóstico extendido</h2>
                   <div class="cards-container">
                     
@@ -671,7 +672,7 @@
                             </div>
                       </div>
     
-                      <div class="card-body">
+                      <div class="card-body" v-if="forecastday">
                         <h3>{{ forecastday.datetime  | getDateName}}</h3>
                         <h5 class="card-title">Mínima {{ forecastday.min_temp }}°</h5>
                         <h5 class="card-title">Máxima {{ forecastday.max_temp }}°</h5>

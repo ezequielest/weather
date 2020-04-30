@@ -48,7 +48,8 @@ var app = new Vue({
          windSpeed: null,
          iconSelected: null,
          isNight: false,
-         forecast: null,
+         currentForecast: null,
+         forecast: [],
          iconsForecast: []
         }
     },
@@ -87,10 +88,13 @@ var app = new Vue({
             return serchInto[code] === 'snow' ? true : false;  
         },
         getForecast: function() {
+            let daysForecast = 4;
+
             axios
-                .get(`https://api.weatherbit.io/v2.0/forecast/daily?postal_code=7600&days=3&key=${this.key}`)
+                .get(`https://api.weatherbit.io/v2.0/forecast/daily?postal_code=7600&days=${daysForecast}&key=${this.key}`)
                 .then(response => {
-                    this.forecast = response.data.data;
+                    this.currentForecast = response.data.data[0];
+                    this.forecast = response.data.data.slice(1,daysForecast);
 
                     this.iconsForecast = [];
                     
@@ -99,8 +103,6 @@ var app = new Vue({
                             return icon[day.weather.code]
                         })[0]);
                     })
-
-                    console.log('forecast ', this.forecast)
     
                 })
                 .catch(error => {
@@ -151,8 +153,7 @@ var app = new Vue({
             let days = ['Domingo','Lunes', 'Martes','Miércoles','Jueves','Viernes','Sábado'];
             if (!value) return '';
             value = moment(value).format('e');
-            console.log(value)
-            value = days[parseInt(value)+1];
+            value = days[parseInt(value)];
             return value
         }
     }
