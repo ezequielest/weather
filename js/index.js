@@ -15,7 +15,7 @@ var app = new Vue({
             {302: 'snow'},
             {500: 'rainy'},
             {501: 'rainy'},
-            {501: 'rainy'},
+            {502: 'rainy'},
             {511: 'rainy'},
             {520: 'rainy'},
             {521: 'rainy'},
