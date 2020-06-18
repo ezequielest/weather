@@ -152,8 +152,8 @@ var app = new Vue({
         getDateName: function (value) {
             let days = ['Domingo','Lunes', 'Martes','Miércoles','Jueves','Viernes','Sábado'];
             if (!value) return '';
-            value = moment(value).format('e');
-            value = days[parseInt(value)];
+            let fecha = new Date(value).getDay();
+            value = days[parseInt(fecha)];
             return value
         }
     }
